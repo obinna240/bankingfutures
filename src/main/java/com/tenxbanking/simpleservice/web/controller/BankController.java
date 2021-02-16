@@ -10,6 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/bank")
@@ -49,7 +54,7 @@ public class BankController {
      * POST MAPPINGS
      */
     @PostMapping
-    public ResponseEntity doPost(@RequestBody BankDto dto){
+    public ResponseEntity doPost(@RequestBody @Valid BankDto dto){ //u can also use @Validated --test this out
         BankDto bankDto = bankService.save(dto);
         HttpHeaders header = new HttpHeaders();
         header.add("uri-location", "http://localhost:9090/api/v1/bank"+bankDto.getId());
@@ -77,6 +82,8 @@ public class BankController {
         log.info("Deleting *****");
         bankService.deleteById(id);
     }
+
+
 
 
 }
